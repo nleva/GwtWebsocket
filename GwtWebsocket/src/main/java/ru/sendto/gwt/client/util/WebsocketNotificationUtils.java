@@ -10,7 +10,7 @@ public class WebsocketNotificationUtils {
 	
 	private WebsocketNotificationUtils() {}
 	
-	public void init(){};
+	public static void init(){};
 	
 	public static void setIconDisconected(String iconDisconected) {
 		iconDisconected = iconDisconected;
