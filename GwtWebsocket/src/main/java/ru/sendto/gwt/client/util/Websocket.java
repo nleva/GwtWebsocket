@@ -60,28 +60,6 @@ public class Websocket {
 	// Список обработчиков бинарных данных.
 	static List<IBynaryMessageCallback> callbackBynaryList = new ArrayList<IBynaryMessageCallback>();
 
-	static String iconDisconected = "res/disconnected.png";
-	static String iconConnected = "res/connected.png";
-
-	public static void setIconConnected(String iconConnected) {
-		Websocket.iconConnected = iconConnected;
-	}
-	
-	public static void setIconDisconected(String iconDisconected) {
-		Websocket.iconDisconected = iconDisconected;
-	}
-	
-//	static {
-//		Websocket.addMessageListener(HttpReloadSessionRequestDto.class, dto -> {
-//			forceReload();
-//		});
-//	}
-
-	public static native void forceReload() /*-{
-		document.cookie = 'JSESSIONID=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-		$wnd.location.reload(true);
-	}-*/;
-
 	/**
 	 * Инициализация подключения.
 	 * 
@@ -192,15 +170,7 @@ public class Websocket {
 	 */
 	public static void onOpen() {
 		Bus.get().fire(new ConnectedEvent());
-		if (reconnectNotification != null) {
-			Notifications.close(reconnectNotification);
-			reconnectNotification = null;
-			
-			Notifications.show("reconnect", "Подключение активно", "Вы снова подключены", iconConnected, 5000);
-			
-		}
 		ListIterator<Dto> iter = queueToSend.listIterator();
-//		Log.console("connected. msg count: " + queueToSend.size());
 		for (; iter.hasNext();) {
 			send(iter.next());
 			iter.remove();
@@ -208,17 +178,12 @@ public class Websocket {
 	}
 
 	private static int reconnectCount = 0;
-	private static elemental.html.Notification reconnectNotification;
+	static elemental.html.Notification reconnectNotification;
 
 	private static void reconnect(String url, int delay) {
 		reconnectCount++;
 
-//FIXME		GroupView.get().clearList();
 		Bus.get().fire(new DisconnectedEvent());
-		// TODO добавить картиночку для оповещения
-		if (reconnectNotification == null) {
-			reconnectNotification = Notifications.show("reconnect", "Подключение нарушено", "Переподключение...", iconDisconected, 0);
-		}
 		Scheduler.get().scheduleFixedDelay(new RepeatingCommand() {
 
 			@Override
