@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>ru.send-to.gwt</groupId>
 	<artifactId>GwtWebsocket</artifactId>
-	<version>2.8.1.0</version>
+	<version>2.8.1.1-SNAPSHOT</version>
 	<name>Gwt websocket</name>
 
 	<parent>
@@ -23,7 +23,7 @@
 		<url>https://github.com/nleva/GwtWebsocket</url>
 		<connection>scm:git:https://github.com/nleva/GwtWebsocket.git</connection>
 		<developerConnection>scm:git:https://github.com/nleva/GwtWebsocket.git</developerConnection>
-		<tag>GwtWebsocket-2.8.1.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<developers>
