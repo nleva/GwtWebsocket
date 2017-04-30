@@ -1,0 +1,244 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>ru.send-to.gwt</groupId>
+	<artifactId>GwtWebsocket</artifactId>
+	<version>2.8.0.0-SNAPSHOT</version>
+	<name>Gwt websocket</name>
+
+	<parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>9</version>
+	</parent>
+
+	<licenses>
+		<license>
+			<name>MIT License</name>
+			<url>http://www.opensource.org/licenses/mit-license.php</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+		<url>https://github.com/nleva/GwtWebsocket</url>
+		<connection>scm:git:https://github.com/nleva/GwtWebsocket.git</connection>
+		<developerConnection>scm:git:https://github.com/nleva/GwtWebsocket.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+
+	<developers>
+		<developer>
+			<id>nleva</id>
+			<name>Lev Nadeinsky</name>
+			<email>n.lev.a@ya.ru</email>
+			<timezone>+4</timezone>
+		</developer>
+	</developers>
+
+	<properties>
+		<!-- Convenience property to set the GWT version -->
+		<gwtVersion>2.8.0</gwtVersion>
+
+		<!-- GWT needs at least java 1.6 -->
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<lombok.lib>${user.home}/.m2/repository/org/projectlombok/lombok/1.16.10/lombok-1.16.10.jar</lombok.lib>
+
+	</properties>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.google.gwt</groupId>
+				<artifactId>gwt</artifactId>
+				<version>${gwtVersion}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<dependencies>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-user</artifactId>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-elemental</artifactId>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-dev</artifactId>
+			<type>jar</type>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.gwt</groupId>
+			<artifactId>gwt-servlet</artifactId>
+			<type>jar</type>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.fusesource.restygwt</groupId>
+			<artifactId>restygwt</artifactId>
+			<version>2.2.0</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ru.send-to.dto</groupId>
+			<artifactId>DtoCommon</artifactId>
+			<version>0.0.3</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>ru.send-to.gwt</groupId>
+			<artifactId>Notifications</artifactId>
+			<version>2.8.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>ru.send-to.gwt</groupId>
+			<artifactId>EventBus</artifactId>
+			<version>2.8.0.1</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<checkModificationExcludes>
+						<checkModificationExclude>${basedir}/target/**</checkModificationExclude>
+					</checkModificationExcludes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default</id>
+						<goals>
+							<goal>perform</goal>
+						</goals>
+						<configuration>
+							<pomFileName>${basedir}/pom.xml</pomFileName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes/</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/src/main/java/</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>**/*.java</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>${basedir}/src/main/resources/</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>**</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.6</version>
+						<configuration>
+							<passphrase>${gpg.passphrase}</passphrase>
+						</configuration>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+</project>
