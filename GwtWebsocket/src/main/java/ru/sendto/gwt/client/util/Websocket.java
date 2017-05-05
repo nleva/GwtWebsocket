@@ -125,7 +125,7 @@ public class Websocket {
 	 *            - текстовые данные.
 	 */
 	private static native void send(String msg)/*-{
-		@ru.sendto.lmps.gwt.client.util.Websocket::ws.send(msg);
+		@ru.sendto.gwt.client.util.Websocket::ws.send(msg);
 	}-*/;
 
 	/**
@@ -135,31 +135,31 @@ public class Websocket {
 	 *            - куда подключаемся.
 	 */
 	private static native void connect(String url) /*-{
-		@ru.sendto.lmps.gwt.client.util.Websocket::ws = new WebSocket(url);
-		@ru.sendto.lmps.gwt.client.util.Websocket::ws.binaryType = "arraybuffer";
-		@ru.sendto.lmps.gwt.client.util.Websocket::ws.onmessage = function(e) {
+		@ru.sendto.gwt.client.util.Websocket::ws = new WebSocket(url);
+		@ru.sendto.gwt.client.util.Websocket::ws.binaryType = "arraybuffer";
+		@ru.sendto.gwt.client.util.Websocket::ws.onmessage = function(e) {
 			if (typeof e.data === "string")
-				@ru.sendto.lmps.gwt.client.util.Websocket::receiv(*)(e.data);
+				@ru.sendto.gwt.client.util.Websocket::receiv(*)(e.data);
 			else
-				@ru.sendto.lmps.gwt.client.util.Websocket::receivBin(*)(e.data);
+				@ru.sendto.gwt.client.util.Websocket::receivBin(*)(e.data);
 		}
-		@ru.sendto.lmps.gwt.client.util.Websocket::ws.onopen = function() {
-			@ru.sendto.lmps.gwt.client.util.Websocket::connected = true;
-			@ru.sendto.lmps.gwt.client.util.Websocket::reconnectCount = 0;
-			@ru.sendto.lmps.gwt.client.util.Websocket::onOpen()();
+		@ru.sendto.gwt.client.util.Websocket::ws.onopen = function() {
+			@ru.sendto.gwt.client.util.Websocket::connected = true;
+			@ru.sendto.gwt.client.util.Websocket::reconnectCount = 0;
+			@ru.sendto.gwt.client.util.Websocket::onOpen()();
 		}
-		@ru.sendto.lmps.gwt.client.util.Websocket::ws.onclose = function() {
+		@ru.sendto.gwt.client.util.Websocket::ws.onclose = function() {
 			console.log("clodsed");
-			if (@ru.sendto.lmps.gwt.client.util.Websocket::connected)
-				@ru.sendto.lmps.gwt.client.util.Websocket::reconnect(Ljava/lang/String;I)(url,5000);
-			@ru.sendto.lmps.gwt.client.util.Websocket::connected = false;
+			if (@ru.sendto.gwt.client.util.Websocket::connected)
+				@ru.sendto.gwt.client.util.Websocket::reconnect(Ljava/lang/String;I)(url,5000);
+			@ru.sendto.gwt.client.util.Websocket::connected = false;
 
 		}
-		@ru.sendto.lmps.gwt.client.util.Websocket::ws.onerror = function(e) {
+		@ru.sendto.gwt.client.util.Websocket::ws.onerror = function(e) {
 			console.log("error:" + e.data);
-			//			if(@ru.sendto.lmps.gwt.client.util.Websocket::connected)
-			@ru.sendto.lmps.gwt.client.util.Websocket::reconnect(Ljava/lang/String;I)(url,5000);
-			@ru.sendto.lmps.gwt.client.util.Websocket::connected = false;
+			//			if(@ru.sendto.gwt.client.util.Websocket::connected)
+			@ru.sendto.gwt.client.util.Websocket::reconnect(Ljava/lang/String;I)(url,5000);
+			@ru.sendto.gwt.client.util.Websocket::connected = false;
 
 		}
 	}-*/;
