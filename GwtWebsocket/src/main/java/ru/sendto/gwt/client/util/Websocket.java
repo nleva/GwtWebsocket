@@ -1,11 +1,13 @@
 package ru.sendto.gwt.client.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.function.Consumer;
 
 import org.fusesource.restygwt.client.JsonEncoderDecoder;
 
@@ -21,7 +23,11 @@ import ru.sendto.dto.Dto;
  * Класс реализующий вэбсокет.
  */
 public class Websocket {
+	
+	static List<Consumer<Dto>> filters = new ArrayList<>();
 
+	
+	
 	/**
 	 * Интерфейс для обратного вызова прихода текстовых сообщений.
 	 */
@@ -66,7 +72,8 @@ public class Websocket {
 	 * @param url
 	 *            - строка подключения.
 	 */
-	public static void init(String url) {
+	public static void init(String url, Consumer<Dto>...filters) {
+		Websocket.filters.addAll(Arrays.asList(filters));
 		codec = GWT.create(Codec.class);
 		url = url.replaceFirst("http", "ws");
 		connect(url);
@@ -106,12 +113,7 @@ public class Websocket {
 	 *            - отправляемые данные.
 	 */
 	public static void send(Dto dto) {
-//		if(dto instanceof AbstractDto){
-//			AbstractDto adto = ((AbstractDto)dto);
-//			if(adto.getLessonId()==0){
-//				adto.setLessonId(LessonData.get().getId());
-//			}
-//		}
+		filters.forEach(c->c.accept(dto));
 		if (connected) {
 			send(codec.encode(dto).toString());
 		} else {
