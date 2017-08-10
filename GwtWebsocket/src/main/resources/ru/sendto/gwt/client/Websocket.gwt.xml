@@ -2,5 +2,6 @@
 <module>
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="ru.sendto.gwt.client.Bus" />
+	<inherits name="ru.sendto.gwt.client.Notifications" />
 	<source path="util" />
 </module>

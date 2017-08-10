@@ -82,12 +82,17 @@ public class Websocket {
 	/**
 	 * Добавление обработчиков событий.
 	 * 
+	 * @Deprecated
+	 * use Bus.get().listen(...) instead
+	 * 
 	 * @param type
 	 *            - тип dto входных данных.
 	 * @param callback
 	 *            - обработчик данных.
 	 */
+	@Deprecated
 	public static <T extends Dto> void addMessageListener(Class<T> type, IDtoMessageCallback<T> callback) {
+//		Bus.get().listen(type, t->callback.onMessage(t));
 		List<IDtoMessageCallback> list = callbackDtoList.get(type.getName());
 		if (list == null) {
 			list = new ArrayList<>();
@@ -206,6 +211,7 @@ public class Websocket {
 	 */
 	private static void receiv(String m) {
 		Dto dto = codec.decode(m);
+		Bus.get().fire(dto);
 		List<IDtoMessageCallback> callList = callbackDtoList.get(dto.getClass().getName());
 		if(callList!=null){
 			for (IDtoMessageCallback call : callList) {
